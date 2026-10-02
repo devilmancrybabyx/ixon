@@ -1,8 +1,10 @@
+import re
 import requests
 from urllib.parse import quote_plus
 from typing import List
 
 from icon_changer.providers.base import BaseProvider, IconResult
+from requests.adapters import HTTPAdapter
 
 class Icons8Provider(BaseProvider):
     """Fetches high-quality transparent icons from Icons8."""
@@ -15,13 +17,15 @@ class Icons8Provider(BaseProvider):
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
             "Accept": "application/json",
         }
+        self.session = requests.Session()
+        adapter = HTTPAdapter(pool_connections=20, pool_maxsize=20, max_retries=0)
+        self.session.mount("https://", adapter)
+        self.session.mount("http://", adapter)
 
     def search(self, query: str, max_results: int = 30, page: int = 1) -> List[IconResult]:
         results: List[IconResult] = []
-        # Strip generic words like 'icon', 'png', etc. to maximize Icons8 search relevance
-        cleaned_term = query
-        for word in ["icon", "png", "transparent", "ico", '"']:
-            cleaned_term = cleaned_term.replace(word, "").replace(word.upper(), "")
+        # Strip generic words like 'icon', 'png', etc. with whole-word boundary
+        cleaned_term = re.sub(r'\b(icon|png|transparent|ico)\b', '', query, flags=re.IGNORECASE)
         cleaned_term = " ".join(cleaned_term.split()).strip()
         if not cleaned_term:
             cleaned_term = query
@@ -30,7 +34,7 @@ class Icons8Provider(BaseProvider):
         url = f"https://search.icons8.com/api/iconsets/v5/search?term={quote_plus(cleaned_term)}&amount={max_results}&offset={offset}"
 
         try:
-            resp = requests.get(url, headers=self.headers, timeout=10)
+            resp = self.session.get(url, headers=self.headers, timeout=(2.5, 5.0))
             if resp.status_code == 200:
                 data = resp.json()
                 icons = data.get("icons", [])

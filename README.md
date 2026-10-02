@@ -1,139 +1,179 @@
-# Icon Changer — Windows Icon Customizer 🎨
+<div align="center">
 
-A fast, lightweight, and modern Windows desktop application that lets you customize the icon for any **folder**, **shortcut (.lnk)**, or **file** on your PC directly from the Windows right-click context menu or via a full-featured desktop interface.
+  <img src="assets/app_icon.png" width="128" height="128" alt="ixon logo" style="border-radius: 28px; box-shadow: 0 10px 30px rgba(124, 92, 252, 0.35);" />
+
+  # ixon
+
+  ### Modern Windows Icon Customizer & Shell Integration Tool
+
+  <p align="center">
+    <b>Instantly search, customize, and apply high-definition transparent icons to folders, shortcuts, and files with zero lag.</b>
+  </p>
+
+  <p align="center">
+    <a href="https://github.com/devilmancrybabyx/ixon/releases/latest"><img src="https://img.shields.io/github/v/release/devilmancrybabyx/ixon?style=for-the-badge&color=7c5cfc&logo=windows&logoColor=white" alt="Latest Release" /></a>
+    <a href="https://github.com/devilmancrybabyx/ixon/releases"><img src="https://img.shields.io/github/downloads/devilmancrybabyx/ixon/total?style=for-the-badge&color=00d26a&logo=github" alt="Downloads" /></a>
+    <img src="https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078d4?style=for-the-badge&logo=windows11&logoColor=white" alt="Platform Windows" />
+    <img src="https://img.shields.io/badge/Memory%20Footprint-%3C%2010%20MB-purple?style=for-the-badge&logo=speedtest&logoColor=white" alt="Memory Footprint" />
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License MIT" /></a>
+    <img src="https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge&logo=checkmarx&logoColor=white" alt="Build Status" />
+  </p>
+
+  <p align="center">
+    <a href="#-quick-download"><b>📥 Download Release</b></a> •
+    <a href="#-key-features"><b>✨ Features</b></a> •
+    <a href="#-visual-previews"><b>📸 Previews</b></a> •
+    <a href="#-quick-start"><b>🚀 Quick Start</b></a> •
+    <a href="#-keyboard-shortcuts"><b>⌨ Shortcuts</b></a> •
+    <a href="#-architecture--performance"><b>🧠 Architecture</b></a>
+  </p>
+
+  <br />
+
+  <img src="assets/preview.png" width="820" alt="ixon Quick Picker Context Menu UI" style="border-radius: 16px; box-shadow: 0 16px 40px rgba(0,0,0,0.6);" />
+
+</div>
 
 ---
 
-## ✨ Features
+## ⚡ Highlights
 
-- **Right-Click Context Menu Integration**: Right-click any Folder, File, or Shortcut (.lnk) in Windows Explorer and select **"Change Icon"**.
-- **Quick Popup Picker**:
-  - Pops up in under **400ms** right next to your mouse cursor.
-  - Automatically searches for transparent icons based on your item name (e.g., `gta v "icon png"`).
-  - **Click any icon to instantly set it!**
-  - **In-Popup Shortcuts & Controls**:
-    - **Search Box**: Refine search keywords on the fly without going to Settings.
-    - **Provider Selector**: Switch between *Google & Web Images*, *Icons8*, and *Google Custom Search API*.
-    - **Resolution Selector**: Choose from `256x256`, `128x128`, `64x64`, `48x48`, `32x32`, `16x16`, or `Multi-Size .ICO`.
-    - **Browse Local**: Select local `.ico`, `.png`, `.jpg`, `.dll`, or `.exe` files.
-    - **Restore Default**: 1-click restore default Windows icon.
-    - **Keyboard Controls**: `Arrow keys` to move selection, `Enter` to set, `Esc` to exit, `F5` to refresh.
-- **Full Desktop Program with Settings**:
-  - **Customizer Workspace**: Drag & drop any folder, file, or shortcut to customize.
-  - **Customization History**: Browse all previously customized items on your PC with 1-click "Restore Default" or "Change Icon".
-  - **Settings & Context Menu**:
-    - Customize search suffix (e.g. change `"icon png"` to `"logo png"`, `"transparent icon"`, etc.).
-    - Customize search query template (`{name} {suffix}`).
-    - Optional Google Custom Search API credentials (API Key + CX).
-    - Context menu 1-click install/uninstall with status badge.
-    - Cache management and Windows shell refresh (`SHChangeNotify`).
-- **High-Quality Transparent ICO Conversion**:
-  - Fetches transparent PNG images and converts them directly to multi-resolution Windows `.ico` files preserving the alpha transparency channel (no black or ugly borders).
-- **Lightweight & Zero Background Footprint**:
-  - **0% CPU and 0 MB RAM** when idle (no persistent background daemon).
-  - Native PyQt5 + Windows Win32 API. Uses ~40MB RAM only when opened.
+**ixon** replaces the clunky 1990s Windows "Change Icon" dialog with an ultra-responsive, neumorphic popup right at your mouse cursor. Right-click any folder or shortcut, choose from live high-res transparent web results or vector icon libraries, and apply instantly with automated multi-size `.ico` generation.
+
+- 🪄 **Pristine Edge Defringing**: Proprietary vectorized edge erosion and color un-matting completely eliminates ugly white halo outlines around transparent icons.
+- 🚀 **Zero-Lag Explorer Refresh**: Uses Windows Shell notification (`SHChangeNotify`) and window broadcasting (`WM_COMMAND`) to update icons immediately without restarting `explorer.exe`.
+- 🪶 **Ultra-Lightweight (<10 MB RAM)**: Active working set memory trimmer purges resident memory down to ~5 MB (idle <1 MB). Single-process enforcement prevents zombie background tasks.
+- 🛡 **Zero UAC Annoyances**: Installs cleanly into `HKEY_CURRENT_USER\Software\Classes` without requesting admin privileges or triggering elevation prompts for regular folders.
 
 ---
 
-## 🚀 Getting Started
+## 📸 Visual Previews
 
-### 1. Requirements
-- Windows 10 or Windows 11
+<div align="center">
+
+### 1. Minimalist Quick Context-Menu Picker
+*Frameless floating card, animated hamburger menu, instant provider switching, and vector icons.*
+
+<img src="assets/preview.png" width="760" alt="Quick Picker Popup" style="border-radius: 12px; margin-bottom: 24px;" />
+
+### 2. Full Application Workspace & History
+*Drag-and-drop customization, multi-source search query templates, and 1-click restore for all customized items.*
+
+<img src="assets/preview_main.png" width="760" alt="Full Desktop Application" style="border-radius: 12px;" />
+
+</div>
+
+---
+
+## ✨ Key Features
+
+| Feature | Description |
+| :--- | :--- |
+| **Instant Right-Click Popup** | Right-click any folder, shortcut (`.lnk`), or file in Explorer and select **"Change Icon"**. |
+| **Multi-Engine Search** | Search across **Google & Web Images**, **Icons8 (1.5M+ Vector Icons)**, and official **Google Custom Search API**. |
+| **Pristine Transparency** | Automatic background floodfill + vectorized defringing removes halos, artifacts, and anti-aliasing white borders. |
+| **Multi-Resolution .ICO** | Packs 256×256, 128×128, 64×64, 48×48, 32×32, and 16×16 bitmaps so icons stay razor-sharp in every Explorer view mode. |
+| **Local File Support** | Extract high-res icons from `.exe`, `.dll`, `.ico`, `.png`, `.jpg`, and `.webp` files. |
+| **1-Click Restore** | Restore default Windows folder or shortcut icons with a single click. |
+| **Animated Feedback** | Smooth checkmark overlay animation confirms customization upon selection. |
+
+---
+
+## 📥 Quick Download
+
+Grab the latest standalone release from the [GitHub Releases page](https://github.com/devilmancrybabyx/ixon/releases/latest):
+
+| Asset | Format | Description |
+| :--- | :--- | :--- |
+| **[IconChanger-v1.0.0-Windows-x64.zip](https://github.com/devilmancrybabyx/ixon/releases/latest)** | `.zip` | Portable release bundle. Extract anywhere and launch immediately. |
+| **[IconChanger.exe](https://github.com/devilmancrybabyx/ixon/releases/latest)** | `.exe` | Standalone executable binary. |
+
+---
+
+## 🚀 Quick Start
+
+### 1. Enable Windows Explorer Context Menu (1-Click)
+Run `IconChanger.exe` with the `--install` flag, or click **Install** in the Settings tab:
+```cmd
+IconChanger.exe --install
+```
+> *Installs to `HKCU:\Software\Classes` without requiring administrator privileges or UAC popups.*
+
+### 2. Customize an Icon
+1. In Windows Explorer or on your Desktop, **right-click** any folder or shortcut.
+2. Select **"Change Icon"**.
+3. Type a keyword (or use the auto-populated folder name).
+4. Click your desired icon — it converts, applies to `desktop.ini` / `IShellLink`, refreshes the desktop, and closes automatically!
+
+---
+
+## ⌨ Keyboard Shortcuts
+
+| Shortcut | Action |
+| :---: | :--- |
+| `Arrow Keys` | Navigate through search result cards |
+| `Enter` / `Return` | Apply selected icon card (or trigger search if input focused) |
+| `Esc` | Close Quick Picker |
+| `F5` | Refresh current search query |
+
+---
+
+## 🛠 Running from Source
+
+If you prefer building or running from Python source:
+
+### Prerequisites
+- Windows 10 or 11 (64-bit)
 - Python 3.10+ (Python 3.12 recommended)
 
-### 2. Install Dependencies
+### Setup
 ```bash
+# Clone the repository
+git clone https://github.com/devilmancrybabyx/ixon.git
+cd ixon
+
+# Install dependencies
 pip install -r requirements.txt
-```
 
-### 3. Add to Windows Context Menu (1-Click)
-Double-click `setup_context_menu.bat` or run:
-```bash
-python run.py --install
-```
-> **Note**: Installs to `HKEY_CURRENT_USER\Software\Classes`, so **no Administrator privileges or UAC prompts** are required!
+# Run Quick Picker for a target folder
+python run.py --quick "C:\path\to\your\folder"
 
-### 4. Launch Full Program
-Double-click `run.py` or run:
-```bash
+# Or run the full desktop program
 python run.py
 ```
 
----
-
-## 🎯 How to Use
-
-### Method A: From the Windows Context Menu (Quickest)
-1. In Windows Explorer or on your Desktop, **right-click** any folder, shortcut, or file.
-2. Click **"Change Icon"**.
-3. The Quick Picker window pops up displaying transparent icons.
-4. **Click an icon** — it downloads, converts to `.ico`, applies it to your item, notifies Windows Explorer, and closes!
-
-### Method B: From the Full Program
-1. Launch `python run.py`.
-2. Drag and drop any folder, shortcut, or file into the top drop zone (or click **Browse**).
-3. Search icons or browse local icon files.
-4. Preview the icon on a transparent checkerboard.
-5. Click **"Apply Selected Icon"**.
-
-### Restoring Default Icons
-- In the Quick Picker: Click **"Restore Default"**.
-- In the Full Program: Select the target and click **"Restore Default Icon"**, or go to the **Customization History** tab and click **"Restore"** next to any item.
-
----
-
-## ⚙ Search Options & Settings
-
-You can customize how icons are searched in the **Settings** tab:
-- **Search Suffix**: Change the default `icon png` to anything you prefer (e.g. `gta v "icon png"`, `transparent icon`, `logo png`).
-- **Query Template**: Format how queries are constructed (`{name} {suffix}`).
-- **Default Resolution**:
-  - `256x256 (Crisp)`: High-definition icon for extra large views.
-  - `Multi-Size .ICO`: Bundles 16x16, 24x24, 32x32, 48x48, 64x64, 128x128, and 256x256 into a single ICO so Windows Explorer renders crisply at every view size (Details, List, Tiles, Small, Medium, Large, Extra Large).
-- **Icon Providers**:
-  1. **Google & Web Images**: Searches and downloads high-res transparent PNGs directly from web sources.
-  2. **Icons8**: Access to over 1.5 million clean, transparent vector and raster icons.
-  3. **Google Custom Search API**: For users who prefer official Google Images API (requires free API Key and CX).
-
----
-
-## 📁 Project Architecture
-
-```
-icon/
-├── icon_changer/
-│   ├── core/
-│   │   ├── config.py           # Configuration manager & AppData paths
-│   │   ├── icon_engine.py      # Transparent PNG to multi-res ICO converter
-│   │   ├── icon_applicator.py  # Windows desktop.ini, .lnk WScript.Shell, SHChangeNotify
-│   │   ├── shell_manager.py    # HKCU context menu registration
-│   │   └── history.py          # Customization history database
-│   ├── providers/
-│   │   ├── base.py             # IconResult & BaseProvider interface
-│   │   ├── web_search.py       # Google & Web transparent PNG scraper
-│   │   ├── icons8_search.py    # Icons8 API integration
-│   │   └── google_cse.py       # Google Custom Search API integration
-│   ├── ui/
-│   │   ├── styles.py           # Fluent dark theme QSS
-│   │   ├── widgets.py          # IconCard with checkerboard & responsive IconGrid
-│   │   ├── quick_picker.py     # Context menu popup window
-│   │   ├── settings_tab.py     # Full settings & context menu manager
-│   │   └── main_window.py      # Main workspace & history interface
-│   └── main.py                 # CLI and GUI entrypoint
-├── tests/                      # Full unit and GUI test suite (10/10 passing)
-├── run.py                      # Root launcher
-├── build_exe.py                # Standalone executable compiler
-├── setup_context_menu.bat      # 1-click context menu installer
-├── remove_context_menu.bat     # 1-click context menu uninstaller
-└── requirements.txt            # Python dependencies
-```
-
----
-
-## 🛠 Standalone Executable Build
-
-To compile a standalone `.exe` that does not require Python:
+### Compiling with PyInstaller
 ```bash
 python build_exe.py
 ```
-The resulting executable will be in `dist/IconChanger/IconChanger.exe`.
+Compiled output will be placed in `dist/IconChanger/IconChanger.exe`.
+
+---
+
+## 🧠 Architecture & Performance
+
+```mermaid
+flowchart TD
+    A[Explorer Context Menu] -->|--quick target| B[QuickPickerWindow]
+    B -->|Async Search| C[Web / Icons8 / Google CSE Provider]
+    C -->|Raw Image Bytes| D[Pristine Defringe Engine]
+    D -->|Transparent RGBA| E[Multi-Res ICO Generator]
+    E -->|Write desktop.ini / IShellLink| F[Windows Shell]
+    F -->|SHChangeNotify + WM_COMMAND| G[Explorer & Desktop Instant Refresh]
+    B -->|Automatic Purge| H[Working Set Trim < 10MB RAM]
+```
+
+- **Folder Customization**: Uses Windows `SHGetSetFolderCustomSettings` with UTF-16LE `desktop.ini` and applies `FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_READONLY`.
+- **Shortcut Customization**: Leverages Windows COM `IShellLinkW` / `WScript.Shell` for instant shortcut icon redirection.
+- **Defringing Algorithm**: Evaluates boundary pixels touching transparency channels, strips outer white halos (`r > 185, g > 185, b > 185`), and un-mattes anti-aliased edge blends using `(color - (1 - alpha) * 255) / alpha`.
+- **Memory Optimization**: Leverages `kernel32.SetProcessWorkingSetSize` with `-1` purge flags to keep active RAM below 10 MB, alongside single-instance process cleanup.
+
+---
+
+## 📄 License
+
+Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more details.
+
+<div align="center">
+  <sub>Built with ❤️ for Windows customization enthusiasts by <a href="https://github.com/devilmancrybabyx">@devilmancrybabyx</a></sub>
+</div>

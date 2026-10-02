@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 from icon_changer.providers.base import BaseProvider, IconResult
 from icon_changer.providers.web_search import WebImageProvider
 from icon_changer.providers.icons8_search import Icons8Provider
@@ -10,12 +10,18 @@ PROVIDERS: Dict[str, BaseProvider] = {
     "google_api": GoogleCSEProvider(),
 }
 
+_QUERY_CACHE: Dict[Tuple[str, str, int, int], List[IconResult]] = {}
+
 def get_provider(name: str) -> BaseProvider:
     """Returns the provider by name, defaulting to WebImageProvider."""
     return PROVIDERS.get(name, PROVIDERS["web"])
 
 def search_icons(query: str, provider_name: str = "web", max_results: int = 30, page: int = 1) -> List[IconResult]:
-    """Searches icons using specified provider or falls back to next available provider if empty."""
+    """Searches icons using specified provider with in-memory caching and fallback."""
+    cache_key = (query.strip().lower(), provider_name, max_results, page)
+    if cache_key in _QUERY_CACHE:
+        return _QUERY_CACHE[cache_key]
+
     provider = get_provider(provider_name)
     results = provider.search(query, max_results=max_results, page=page)
 
@@ -26,6 +32,8 @@ def search_icons(query: str, provider_name: str = "web", max_results: int = 30, 
     if not results and provider_name != "icons8":
         results = PROVIDERS["icons8"].search(query, max_results=max_results, page=page)
 
+    if results:
+        _QUERY_CACHE[cache_key] = results
     return results
 
 __all__ = ["BaseProvider", "IconResult", "PROVIDERS", "get_provider", "search_icons"]

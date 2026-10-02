@@ -113,5 +113,47 @@ class TestIconChanger(unittest.TestCase):
             self.assertTrue(results[0].image_url.startswith("http"))
             self.assertEqual(results[0].source, "Web")
 
+    def test_ensure_transparent_background(self):
+        # 1. White background image
+        from PIL import ImageDraw
+        white_bg_img = Image.new("RGB", (100, 100), (255, 255, 255))
+        d = ImageDraw.Draw(white_bg_img)
+        d.ellipse((20, 20, 80, 80), fill=(0, 100, 255))
+
+        out_img = IconEngine.ensure_transparent_background(white_bg_img)
+        self.assertEqual(out_img.mode, "RGBA")
+        # Corner should now be transparent
+        self.assertEqual(out_img.getpixel((0, 0))[3], 0)
+        # Center should remain opaque blue
+        self.assertEqual(out_img.getpixel((50, 50)), (0, 100, 255, 255))
+
+        # 2. Already transparent image should remain untouched
+        trans_img = Image.new("RGBA", (100, 100), (0, 0, 0, 0))
+        d2 = ImageDraw.Draw(trans_img)
+        d2.ellipse((20, 20, 80, 80), fill=(255, 0, 0, 255))
+        out_trans = IconEngine.ensure_transparent_background(trans_img)
+        self.assertEqual(out_trans.getpixel((0, 0)), (0, 0, 0, 0))
+        self.assertEqual(out_trans.getpixel((50, 50)), (255, 0, 0, 255))
+
+        # 3. Defringing: image with semi-transparent white fringe around colored object
+        fringe_img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+        d3 = ImageDraw.Draw(fringe_img)
+        d3.ellipse((10, 10, 54, 54), fill=(20, 100, 240, 255))
+        # Add white fringe pixels around edge
+        fringe_img.putpixel((9, 32), (245, 245, 245, 160))
+        fringe_img.putpixel((55, 32), (240, 240, 240, 180))
+        cleaned_fringe = IconEngine.ensure_transparent_background(fringe_img)
+        # White fringe pixels should be defringed (alpha set to 0)
+        self.assertEqual(cleaned_fringe.getpixel((9, 32))[3], 0)
+        self.assertEqual(cleaned_fringe.getpixel((55, 32))[3], 0)
+        # Core object preserved
+        self.assertEqual(cleaned_fringe.getpixel((32, 32)), (20, 100, 240, 255))
+
+    def test_memory_trim_and_single_process(self):
+        from icon_changer.main import trim_memory, cleanup_stale_instances
+        # Verify functions execute without exceptions
+        cleanup_stale_instances()
+        trim_memory()
+
 if __name__ == "__main__":
     unittest.main()

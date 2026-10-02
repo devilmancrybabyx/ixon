@@ -521,3 +521,4 @@ class MainWindow(QtWidgets.QMainWindow):
             self.worker.cancel()
             self.worker.wait(400)
         super().closeEvent(event)
+        QtWidgets.QApplication.quit()

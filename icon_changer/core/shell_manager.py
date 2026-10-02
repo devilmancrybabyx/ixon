@@ -22,6 +22,11 @@ class ShellManager:
             exe_path = sys.executable
             return f'"{exe_path}" --quick "%1"'
         else:
+            # Check if compiled standalone exe exists in dist/
+            dist_exe = Path(__file__).resolve().parent.parent.parent / "dist" / "IconChanger" / "IconChanger.exe"
+            if dist_exe.exists():
+                return f'"{dist_exe}" --quick "%1"'
+
             # Running as Python script
             # Use pythonw.exe to avoid flashing console window
             python_exe = sys.executable
